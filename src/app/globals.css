@@ -35,6 +35,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.nav-scroll {
+  scrollbar-width: none;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 h1,
 h2,
 h3,

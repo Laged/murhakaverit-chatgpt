@@ -63,15 +63,15 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-6 py-4 sm:px-8">
-        <div className="flex items-center justify-between">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-3 sm:px-8 sm:py-4">
+        <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
             className="text-sm font-semibold uppercase tracking-[0.35em] text-foreground"
           >
             {SITE_NAV_LABEL}
           </Link>
-          <nav className="flex flex-wrap items-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:gap-6">
+          <nav className="nav-scroll flex items-center gap-4 overflow-x-auto whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:flex-wrap sm:gap-6 sm:overflow-visible sm:whitespace-normal">
             {navItems.map((item) => (
               <Link
                 key={

@@ -124,7 +124,7 @@ export default async function NotePage({ params }: PageProps) {
         ))}
       </nav>
 
-      <article className="mx-auto flex w-full max-w-3xl flex-col gap-8 text-lg leading-relaxed text-foreground/85">
+      <article className="mx-auto flex w-full max-w-3xl flex-col gap-8 text-base leading-relaxed text-foreground/85 sm:text-lg">
         <header className="flex flex-col gap-4">
           <h1 className="text-balance text-3xl font-semibold leading-tight uppercase sm:text-4xl">
             {note.title}
