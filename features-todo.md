@@ -8,7 +8,7 @@
 - [x] Add direct navigation links for key characters in the header
 - [x] Audit and refine mobile responsiveness throughout
 - [x] Swap typography to Audiowide (headings) + Work Sans (body)
-- [ ] Refresh visual styling with futuristic glow and asymmetric corner cuts
+- [x] Refresh visual styling with futuristic glow and asymmetric corner cuts
 
 For each feature:
 1. Ensure git is initialised (`git init`) and current state committed on `main`.
