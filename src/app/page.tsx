@@ -61,7 +61,7 @@ export default async function Home() {
           the build.
         </p>
       ) : (
-        <section className="flex flex-col gap-8">
+        <section id="notes" className="flex flex-col gap-8">
           <div className="flex items-baseline justify-between gap-4">
             <h2 className="text-xl font-semibold leading-tight">All notes</h2>
             <span className="text-sm text-foreground/55">

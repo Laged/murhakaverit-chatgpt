@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans, Jura, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { SiteHeader } from "@/components/site-header";
+
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-body",
   subsets: ["latin"],
@@ -54,8 +56,9 @@ export default function RootLayout({
       <body
         className={`${ibmPlexSans.variable} ${jura.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
-        <div className="min-h-screen">
-          <main className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-6 pb-24 pt-12 sm:px-8 sm:pt-16">
+        <div className="flex min-h-screen flex-col">
+          <SiteHeader />
+          <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-12 px-6 pb-24 pt-12 sm:px-8 sm:pt-16">
             {children}
           </main>
         </div>
