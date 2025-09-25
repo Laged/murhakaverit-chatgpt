@@ -27,7 +27,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body), "IBM Plex Sans", "Inter", "Segoe UI",
+  font-family: var(--font-body), "Work Sans", "Inter", "Segoe UI",
     system-ui, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
   font-size: clamp(1rem, 0.35vw + 1rem, 1.1rem);
   line-height: 1.7;
@@ -49,7 +49,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading), "Jura", "IBM Plex Sans", "Inter",
+  font-family: var(--font-heading), "Audiowide", "Work Sans", "Inter",
     "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Helvetica,
     Arial, sans-serif;
   letter-spacing: -0.02em;

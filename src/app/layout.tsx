@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Jura, Geist_Mono } from "next/font/google";
+import { Audiowide, Work_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { SiteHeader } from "@/components/site-header";
 
-const ibmPlexSans = IBM_Plex_Sans({
+const workSans = Work_Sans({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const jura = Jura({
+const audiowide = Audiowide({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "400",
   display: "swap",
 });
 
@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ibmPlexSans.variable} ${jura.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${workSans.variable} ${audiowide.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
