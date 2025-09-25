@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { getNoteSummaries } from "@/lib/notes";
+import { ScrollProgress } from "@/components/scroll-progress";
 
 const SITE_NAV_LABEL = "Murhakaverit Vault";
 
@@ -51,30 +52,33 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4 sm:px-8">
-        <Link
-          href="/"
-          className="text-sm font-semibold uppercase tracking-[0.35em] text-foreground"
-        >
-          {SITE_NAV_LABEL}
-        </Link>
-        <nav className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:gap-6">
-          {navItems.map((item) => (
-            <Link
-              key={
-                typeof item.href === "string"
-                  ? item.href
-                  : "hash" in item.href
-                    ? `${item.href.pathname}#${item.href.hash}`
-                    : `${item.href.pathname}/${item.href.params.slug.join("/")}`
-              }
-              href={item.href}
-              className="transition hover:text-foreground"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-6 py-4 sm:px-8">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/"
+            className="text-sm font-semibold uppercase tracking-[0.35em] text-foreground"
+          >
+            {SITE_NAV_LABEL}
+          </Link>
+          <nav className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={
+                  typeof item.href === "string"
+                    ? item.href
+                    : "hash" in item.href
+                      ? `${item.href.pathname}#${item.href.hash}`
+                      : `${item.href.pathname}/${item.href.params.slug.join("/")}`
+                }
+                href={item.href}
+                className="transition hover:text-foreground"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <ScrollProgress />
       </div>
     </header>
   );

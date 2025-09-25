@@ -1,7 +1,7 @@
 # Features TODO
 
 - [x] Sticky header navigation linking to other sections/pages
-- [ ] Horizontal scroll indicator showing reading progress
+- [x] Horizontal scroll indicator showing reading progress
 - [ ] Contextual popup system: clicking a bolded term opens related note (e.g., "[1.9](Kolmatta Maailmansotaa)" → `1.9) KolmasMaailmansota.md`) - use Obsidian notation for these
 
 For each feature:
