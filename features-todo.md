@@ -9,6 +9,7 @@
 - [x] Audit and refine mobile responsiveness throughout
 - [x] Swap typography to Audiowide (headings) + Work Sans (body)
 - [x] Refresh visual styling with futuristic glow and asymmetric corner cuts
+- [ ] Redesign nav layout (ALKU | SUOMI 2068 and character links with futuristic styling)
 
 For each feature:
 1. Ensure git is initialised (`git init`) and current state committed on `main`.
