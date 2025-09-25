@@ -53,22 +53,25 @@ export async function SiteHeader() {
       <div className="panel mx-auto flex w-full max-w-5xl flex-col gap-2 bg-background/85 px-4 py-3 sm:gap-3 sm:px-8 sm:py-4">
         <div className="flex w-full flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <nav className="flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.35em] text-foreground sm:justify-start">
-            {navItems.map((item, index) => (
-              <>
-                <Link
-                  key={typeof item.href === "string" ? item.href : `${item.href.pathname}#${item.href.hash}`}
-                  href={item.href}
-                  className="transition hover:text-foreground/70"
-                >
-                  {item.label}
-                </Link>
-                {index === 0 && (
-                  <span key="divider" className="px-1 text-foreground/40" aria-hidden>
-                    |
-                  </span>
-                )}
-              </>
-            ))}
+            {navItems.map((item, index) => {
+              const key =
+                typeof item.href === "string"
+                  ? item.href
+                  : `${item.href.pathname}#${item.href.hash}`;
+
+              return (
+                <span key={key} className="flex items-center gap-2">
+                  <Link href={item.href} className="transition hover:text-foreground/70">
+                    {item.label}
+                  </Link>
+                  {index === 0 && (
+                    <span className="text-foreground/40" aria-hidden>
+                      |
+                    </span>
+                  )}
+                </span>
+              );
+            })}
           </nav>
           <div className="flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.26em] text-foreground/60 sm:justify-end">
             <span className="hidden text-foreground/40 sm:inline">Hahmot:</span>
