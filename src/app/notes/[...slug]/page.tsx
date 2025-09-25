@@ -74,17 +74,9 @@ export default async function NotePage({ params }: PageProps) {
   const previousNote =
     currentIndex > 0 ? summaries[currentIndex - 1] : undefined;
 
-  const nextHref = nextNote
-    ? {
-        pathname: "/notes/[...slug]" as const,
-        params: { slug: nextNote.slugSegments },
-      }
-    : undefined;
+  const nextHref = nextNote ? `/notes/${nextNote.slug}` : undefined;
   const previousHref = previousNote
-    ? {
-        pathname: "/notes/[...slug]" as const,
-        params: { slug: previousNote.slugSegments },
-      }
+    ? `/notes/${previousNote.slug}`
     : undefined;
 
   const humanise = (segment: string) =>

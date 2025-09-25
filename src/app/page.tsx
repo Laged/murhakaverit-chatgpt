@@ -54,10 +54,7 @@ export default async function Home() {
   const showEmptyState = !landingNote && notes.length === 0;
   const nextAfterLanding = landingSummary ? notes.at(0) : undefined;
   const nextAfterLandingHref = nextAfterLanding
-    ? {
-        pathname: "/notes/[...slug]" as const,
-        params: { slug: nextAfterLanding.slugSegments },
-      }
+    ? `/notes/${nextAfterLanding.slug}`
     : undefined;
 
   return (

@@ -5,10 +5,7 @@ import { ScrollProgress } from "@/components/scroll-progress";
 
 const SITE_NAV_LABEL = "Murhakaverit Vault";
 
-type NavHref =
-  | "/"
-  | { pathname: "/"; hash: string }
-  | { pathname: "/notes/[...slug]"; params: { slug: string[] } };
+type NavHref = "/" | { pathname: "/"; hash: string } | string;
 
 type NavItem = {
   label: string;
@@ -33,10 +30,7 @@ function buildNavItems(slug?: string): NavItem[] {
   if (slug) {
     items.push({
       label: "Read Overview",
-      href: {
-        pathname: "/notes/[...slug]",
-        params: { slug: slug.split("/") },
-      },
+      href: `/notes/${slug}`,
     });
   }
 
@@ -65,9 +59,7 @@ export async function SiteHeader() {
               key={
                 typeof item.href === "string"
                   ? item.href
-                  : "hash" in item.href
-                    ? `${item.href.pathname}#${item.href.hash}`
-                    : `${item.href.pathname}/${item.href.params.slug.join("/")}`
+                  : `${item.href.pathname}#${item.href.hash}`
               }
               href={item.href}
               className="transition hover:text-foreground"
