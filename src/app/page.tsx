@@ -3,6 +3,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { getNoteBySlug, getNoteSummaries } from "@/lib/notes";
+import {
+  createPopupComponents,
+  fetchPopupNotes,
+  transformWikiLinks,
+} from "@/lib/wiki-links";
 
 export const revalidate = 3600;
 
@@ -18,6 +23,16 @@ export default async function Home() {
 
   const landingNote = landingSummary
     ? await getNoteBySlug(landingSummary.slugSegments)
+    : undefined;
+
+  const landingWiki = landingNote
+    ? transformWikiLinks(landingNote.content, summaries)
+    : undefined;
+  const landingPopups = landingWiki
+    ? await fetchPopupNotes(landingWiki.referencedSlugs)
+    : undefined;
+  const landingComponents = landingPopups
+    ? createPopupComponents(landingPopups)
     : undefined;
 
   const notes = summaries.filter((note) => {
@@ -40,7 +55,7 @@ export default async function Home() {
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12">
-      {landingNote && (
+      {landingNote && landingWiki && (
         <article className="rounded-3xl border border-foreground/15 bg-background/80 px-8 py-10 shadow-sm shadow-foreground/5">
           <header className="mb-8 flex flex-col gap-2 text-center">
             <h1 className="text-balance text-4xl font-semibold leading-tight uppercase sm:text-5xl">
@@ -48,8 +63,11 @@ export default async function Home() {
             </h1>
           </header>
           <div className="markdown">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {landingNote.content}
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={landingComponents}
+            >
+              {landingWiki.content}
             </ReactMarkdown>
           </div>
         </article>

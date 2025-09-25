@@ -5,6 +5,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { getNoteBySlug, getNoteSummaries } from "@/lib/notes";
+import {
+  createPopupComponents,
+  fetchPopupNotes,
+  transformWikiLinks,
+} from "@/lib/wiki-links";
 
 export const revalidate = 3600;
 
@@ -52,6 +57,14 @@ export default async function NotePage({ params }: PageProps) {
   if (!note) {
     notFound();
   }
+
+  const summaries = await getNoteSummaries();
+  const { content: markdown, referencedSlugs } = transformWikiLinks(
+    note.content,
+    summaries,
+  );
+  const popupNotes = await fetchPopupNotes(referencedSlugs);
+  const markdownComponents = createPopupComponents(popupNotes);
 
   const humanise = (segment: string) =>
     segment
@@ -111,7 +124,12 @@ export default async function NotePage({ params }: PageProps) {
         </header>
 
         <div className="markdown">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{note.content}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={markdownComponents}
+          >
+            {markdown}
+          </ReactMarkdown>
         </div>
       </article>
     </div>
