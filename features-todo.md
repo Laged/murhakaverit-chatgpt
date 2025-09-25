@@ -6,7 +6,7 @@
 - [x] Sequential navigation (Next button through overview → note list)
 - [x] Replace final "Seuraava" with "Alkuun" linking back to index
 - [x] Add direct navigation links for key characters in the header
-- [ ] Audit and refine mobile responsiveness throughout
+- [x] Audit and refine mobile responsiveness throughout
 - [ ] Swap typography to Audiowide (headings) + Work Sans (body)
 - [ ] Refresh visual styling with futuristic glow and asymmetric corner cuts
 
