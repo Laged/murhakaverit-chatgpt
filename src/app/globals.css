@@ -58,21 +58,69 @@ h6 {
 
 .panel {
   position: relative;
-  clip-path: polygon(18px 0%, 100% 0%, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0% 100%, 0% 18px);
   background: color-mix(in srgb, var(--color-background) 92%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-foreground) 16%, transparent);
-  box-shadow: 0 18px 45px color-mix(in srgb, var(--color-foreground) 14%, transparent);
+  padding: 1px;
 }
 
-.panel::before {
+.panel::before,
+.panel::after {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  clip-path: inherit;
-  border: 1px solid color-mix(in srgb, var(--color-foreground) 8%, transparent);
-  opacity: 0.5;
   pointer-events: none;
+}
+
+.panel::before {
+  background:
+    linear-gradient(
+        to right,
+        color-mix(in srgb, var(--color-foreground) 25%, transparent) 18px,
+        transparent 18px
+      ) top,
+    linear-gradient(
+        to left,
+        color-mix(in srgb, var(--color-foreground) 25%, transparent) 18px,
+        transparent 18px
+      ) bottom,
+    linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--color-foreground) 25%, transparent) 18px,
+        transparent 18px
+      ) left,
+    linear-gradient(
+        to top,
+        color-mix(in srgb, var(--color-foreground) 25%, transparent) 18px,
+        transparent 18px
+      ) right;
+  background-size: 100% 3px, 100% 3px, 3px 100%, 3px 100%;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--color-foreground) 25%, transparent));
+}
+
+.panel::after {
+  background:
+    linear-gradient(
+        to right,
+        transparent calc(18px - 1px),
+        color-mix(in srgb, var(--color-background) 98%, transparent) calc(18px - 1px)
+      ) top,
+    linear-gradient(
+        to left,
+        transparent calc(18px - 1px),
+        color-mix(in srgb, var(--color-background) 98%, transparent) calc(18px - 1px)
+      ) bottom,
+    linear-gradient(
+        to bottom,
+        transparent calc(18px - 1px),
+        color-mix(in srgb, var(--color-background) 98%, transparent) calc(18px - 1px)
+      ) left,
+    linear-gradient(
+        to top,
+        transparent calc(18px - 1px),
+        color-mix(in srgb, var(--color-background) 98%, transparent) calc(18px - 1px)
+      ) right;
+  background-size: 100% 18px, 100% 18px, 18px 100%, 18px 100%;
+  background-repeat: no-repeat;
 }
 
 .markdown {
