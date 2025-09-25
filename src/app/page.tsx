@@ -53,6 +53,12 @@ export default async function Home() {
 
   const showEmptyState = !landingNote && notes.length === 0;
   const nextAfterLanding = landingSummary ? notes.at(0) : undefined;
+  const nextAfterLandingHref = nextAfterLanding
+    ? {
+        pathname: "/notes/[...slug]" as const,
+        params: { slug: nextAfterLanding.slugSegments },
+      }
+    : undefined;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12">
@@ -71,13 +77,13 @@ export default async function Home() {
               {landingWiki.content}
             </ReactMarkdown>
           </div>
-          {nextAfterLanding && (
+          {nextAfterLandingHref && (
             <div className="mt-10 flex justify-end">
               <Link
-                href={`/notes/${nextAfterLanding.slug}`}
+                href={nextAfterLandingHref}
                 className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
               >
-                Next
+                Seuraava
                 <span aria-hidden>→</span>
               </Link>
             </div>

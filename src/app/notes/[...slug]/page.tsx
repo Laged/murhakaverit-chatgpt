@@ -71,6 +71,21 @@ export default async function NotePage({ params }: PageProps) {
     currentIndex >= 0 && currentIndex < summaries.length - 1
       ? summaries[currentIndex + 1]
       : undefined;
+  const previousNote =
+    currentIndex > 0 ? summaries[currentIndex - 1] : undefined;
+
+  const nextHref = nextNote
+    ? {
+        pathname: "/notes/[...slug]" as const,
+        params: { slug: nextNote.slugSegments },
+      }
+    : undefined;
+  const previousHref = previousNote
+    ? {
+        pathname: "/notes/[...slug]" as const,
+        params: { slug: previousNote.slugSegments },
+      }
+    : undefined;
 
   const humanise = (segment: string) =>
     segment
@@ -138,15 +153,36 @@ export default async function NotePage({ params }: PageProps) {
           </ReactMarkdown>
         </div>
 
-        {nextNote && (
-          <div className="mt-10 flex justify-end">
-            <Link
-              href={`/notes/${nextNote.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
-            >
-              Next
-              <span aria-hidden>→</span>
-            </Link>
+        {(previousNote || nextNote) && (
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              {previousHref ? (
+                <Link
+                  href={previousHref}
+                  className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
+                >
+                  <span aria-hidden>←</span>
+                  Edellinen
+                </Link>
+              ) : (
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
+                >
+                  <span aria-hidden>←</span>
+                  Etusivu
+                </Link>
+              )}
+            </div>
+            {nextHref && (
+              <Link
+                href={nextHref}
+                className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
+              >
+                Seuraava
+                <span aria-hidden>→</span>
+              </Link>
+            )}
           </div>
         )}
       </article>
