@@ -1,0 +1,119 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+import { getNoteBySlug, getNoteSummaries } from "@/lib/notes";
+
+export const revalidate = 3600;
+
+type Params = {
+  slug: string[];
+};
+
+type PageProps = {
+  params: Promise<Params>;
+};
+
+export async function generateStaticParams() {
+  const summaries = await getNoteSummaries();
+  return summaries.map((summary) => ({ slug: summary.slugSegments }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const note = await getNoteBySlug(slug);
+
+  if (!note) {
+    return {
+      title: slug.slice(-1).join(" "),
+    };
+  }
+
+  return {
+    title: note.title,
+    description: note.description,
+    openGraph: {
+      title: note.title,
+      description: note.description,
+    },
+  } satisfies Metadata;
+}
+
+export default async function NotePage({ params }: PageProps) {
+  const { slug } = await params;
+  const note = await getNoteBySlug(slug);
+
+  if (!note) {
+    notFound();
+  }
+
+  const humanise = (segment: string) =>
+    segment
+      .split("-")
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ") || segment;
+
+  const breadcrumbSegments = note.slugSegments.map((segment, index) => {
+    const href = `/notes/${note.slugSegments
+      .slice(0, index + 1)
+      .join("/")}` as `/notes/${string}`;
+    return {
+      segment,
+      index,
+      href,
+      isLast: index === note.slugSegments.length - 1,
+    };
+  });
+
+  return (
+    <div className="flex flex-col gap-8">
+      <nav className="flex flex-wrap items-center gap-2 text-xs font-medium tracking-[0.3em] text-foreground/60">
+        <Link
+          href="/"
+          className="uppercase transition hover:text-foreground"
+        >
+          Vault
+        </Link>
+        {breadcrumbSegments.map(({ segment, href, isLast, index }) => (
+          <span key={href} className="flex items-center gap-2">
+            <span aria-hidden>/</span>
+            {isLast ? (
+              <span className="uppercase text-foreground">{note.title}</span>
+            ) : (
+              <Link
+                href={href}
+                className="uppercase text-foreground/70 transition hover:text-foreground"
+              >
+                {index === 0 ? segment : humanise(segment)}
+              </Link>
+            )}
+          </span>
+        ))}
+      </nav>
+
+      <article className="mx-auto flex w-full max-w-3xl flex-col gap-8 text-lg leading-relaxed text-foreground/85">
+        <header className="flex flex-col gap-4">
+          <h1 className="text-balance text-3xl font-semibold leading-tight uppercase sm:text-4xl">
+            {note.title}
+          </h1>
+          {note.description && (
+            <p className="text-pretty text-lg text-foreground/70">
+              {note.description}
+            </p>
+          )}
+        </header>
+
+        <div className="markdown">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{note.content}</ReactMarkdown>
+        </div>
+      </article>
+    </div>
+  );
+}

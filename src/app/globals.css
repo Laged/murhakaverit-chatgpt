@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), "IBM Plex Sans", "Inter", "Segoe UI",
+    system-ui, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  font-size: clamp(1rem, 0.35vw + 1rem, 1.1rem);
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), "Jura", "IBM Plex Sans", "Inter",
+    "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Helvetica,
+    Arial, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.markdown {
+  display: grid;
+  gap: 1.25rem;
+  line-height: 1.75;
+  max-width: min(68ch, 100%);
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+}
+
+.markdown h1 {
+  font-size: clamp(2.25rem, 5vw, 2.75rem);
+}
+
+.markdown h2 {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+}
+
+.markdown h3 {
+  font-size: clamp(1.5rem, 3vw, 1.75rem);
+}
+
+.markdown p,
+.markdown ul,
+.markdown ol,
+.markdown blockquote,
+.markdown pre {
+  margin: 0;
+}
+
+.markdown p {
+  color: color-mix(in srgb, currentColor 82%, transparent);
+}
+
+.markdown ul,
+.markdown ol {
+  padding-left: 1.5rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.markdown blockquote {
+  border-left: 3px solid color-mix(in srgb, currentColor 20%, transparent);
+  padding-left: 1rem;
+  font-style: italic;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+}
+
+.markdown strong {
+  font-weight: 600;
+}
+
+.markdown pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  padding: 1rem;
+}
+
+.markdown code {
+  font-family: var(--font-mono), "IBM Plex Mono", "SFMono-Regular",
+    Consolas, "Liberation Mono", Menlo, monospace;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.4rem;
+  font-size: 0.95em;
+}
+
+.markdown pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.markdown a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 0.3em;
+}
+
+.markdown a:hover,
+.markdown a:focus-visible {
+  text-decoration-color: currentColor;
+  outline: none;
+}
+
+.markdown hr {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  margin: 2.5rem 0;
+}
