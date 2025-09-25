@@ -13,15 +13,12 @@ type NavItem = {
 function buildNavItems(slug?: string): NavItem[] {
   const items: NavItem[] = [
     {
-      label: "Home",
+      label: "Alku",
       href: "/",
     },
     {
-      label: "All Notes",
-      href: {
-        pathname: "/",
-        hash: "notes",
-      },
+      label: "Suomi 2068",
+      href: "/#notes",
     },
   ];
 
