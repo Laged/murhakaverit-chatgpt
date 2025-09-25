@@ -166,13 +166,21 @@ export default async function NotePage({ params }: PageProps) {
                 </Link>
               )}
             </div>
-            {nextHref && (
+            {nextHref ? (
               <Link
                 href={nextHref}
                 className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
               >
                 Seuraava
                 <span aria-hidden>→</span>
+              </Link>
+            ) : (
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
+              >
+                Alkuun
+                <span aria-hidden>↺</span>
               </Link>
             )}
           </div>
