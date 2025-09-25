@@ -4,6 +4,11 @@
 - [x] Horizontal scroll indicator showing reading progress
 - [x] Contextual popup system: clicking a bolded term opens related note (e.g., "[1.9](Kolmatta Maailmansotaa)" → `1.9) KolmasMaailmansota.md`) - use Obsidian notation for these
 - [x] Sequential navigation (Next button through overview → note list)
+- [ ] Replace final "Seuraava" with "Alkuun" linking back to index
+- [ ] Add direct navigation links for key characters in the header
+- [ ] Audit and refine mobile responsiveness throughout
+- [ ] Swap typography to Audiowide (headings) + Work Sans (body)
+- [ ] Refresh visual styling with futuristic glow and asymmetric corner cuts
 
 For each feature:
 1. Ensure git is initialised (`git init`) and current state committed on `main`.
