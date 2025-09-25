@@ -63,7 +63,7 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-3 sm:px-8 sm:py-4">
+      <div className="panel mx-auto flex w-full max-w-5xl flex-col gap-3 bg-background/85 px-4 py-3 sm:px-8 sm:py-4">
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
