@@ -66,6 +66,12 @@ export default async function NotePage({ params }: PageProps) {
   const popupNotes = await fetchPopupNotes(referencedSlugs);
   const markdownComponents = createPopupComponents(popupNotes);
 
+  const currentIndex = summaries.findIndex((summary) => summary.slug === note.slug);
+  const nextNote =
+    currentIndex >= 0 && currentIndex < summaries.length - 1
+      ? summaries[currentIndex + 1]
+      : undefined;
+
   const humanise = (segment: string) =>
     segment
       .split("-")
@@ -131,6 +137,18 @@ export default async function NotePage({ params }: PageProps) {
             {markdown}
           </ReactMarkdown>
         </div>
+
+        {nextNote && (
+          <div className="mt-10 flex justify-end">
+            <Link
+              href={`/notes/${nextNote.slug}`}
+              className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-foreground transition hover:border-foreground/50"
+            >
+              Next
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
+        )}
       </article>
     </div>
   );

@@ -1,12 +1,14 @@
 import Link from "next/link";
-import type { Route } from "next";
 
 import { getNoteSummaries } from "@/lib/notes";
 import { ScrollProgress } from "@/components/scroll-progress";
 
 const SITE_NAV_LABEL = "Murhakaverit Vault";
 
-type NavHref = Route | { pathname: "/"; hash: string };
+type NavHref =
+  | "/"
+  | { pathname: "/"; hash: string }
+  | { pathname: "/notes/[...slug]"; params: { slug: string[] } };
 
 type NavItem = {
   label: string;
@@ -17,7 +19,7 @@ function buildNavItems(slug?: string): NavItem[] {
   const items: NavItem[] = [
     {
       label: "Home",
-      href: "/" as Route,
+      href: "/",
     },
     {
       label: "All Notes",
@@ -31,7 +33,10 @@ function buildNavItems(slug?: string): NavItem[] {
   if (slug) {
     items.push({
       label: "Read Overview",
-      href: `/notes/${slug}` as Route,
+      href: {
+        pathname: "/notes/[...slug]",
+        params: { slug: slug.split("/") },
+      },
     });
   }
 
@@ -60,7 +65,9 @@ export async function SiteHeader() {
               key={
                 typeof item.href === "string"
                   ? item.href
-                  : `${item.href.pathname}#${item.href.hash}`
+                  : "hash" in item.href
+                    ? `${item.href.pathname}#${item.href.hash}`
+                    : `${item.href.pathname}/${item.href.params.slug.join("/")}`
               }
               href={item.href}
               className="transition hover:text-foreground"
