@@ -37,11 +37,29 @@ function buildNavItems(slug?: string): NavItem[] {
   return items;
 }
 
+type CharacterNavItem = {
+  label: string;
+  href: string;
+};
+
+function buildCharacterItems(
+  summaries: Awaited<ReturnType<typeof getNoteSummaries>>,
+): CharacterNavItem[] {
+  return summaries
+    .filter((summary) => /^hahmo\s/i.test(summary.title))
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .map((summary) => ({
+      label: summary.title,
+      href: `/notes/${summary.slug}`,
+    }));
+}
+
 export async function SiteHeader() {
   const summaries = await getNoteSummaries();
   const overviewSlug = summaries.find((note) => note.slug.startsWith("1/0"))
     ?.slug;
   const navItems = buildNavItems(overviewSlug ?? summaries[0]?.slug);
+  const characterItems = buildCharacterItems(summaries);
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
@@ -53,19 +71,31 @@ export async function SiteHeader() {
           >
             {SITE_NAV_LABEL}
           </Link>
-          <nav className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:gap-6">
-          {navItems.map((item) => (
-            <Link
-              key={
-                typeof item.href === "string"
-                  ? item.href
-                  : `${item.href.pathname}#${item.href.hash}`
-              }
-              href={item.href}
-              className="transition hover:text-foreground"
-            >
-              {item.label}
-            </Link>
+          <nav className="flex flex-wrap items-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={
+                  typeof item.href === "string"
+                    ? item.href
+                    : `${item.href.pathname}#${item.href.hash}`
+                }
+                href={item.href}
+                className="transition hover:text-foreground"
+              >
+                {item.label}
+              </Link>
+            ))}
+            {characterItems.length > 0 && (
+              <span className="hidden h-4 w-px bg-foreground/20 sm:block" aria-hidden />
+            )}
+            {characterItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="transition hover:text-foreground"
+              >
+                {item.label}
+              </Link>
             ))}
           </nav>
         </div>
