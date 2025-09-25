@@ -1,14 +1,12 @@
 import Link from "next/link";
+import type { Route } from "next";
 
 import { getNoteSummaries } from "@/lib/notes";
 import { ScrollProgress } from "@/components/scroll-progress";
 
 const SITE_NAV_LABEL = "Murhakaverit Vault";
 
-type NavHref =
-  | "/"
-  | { pathname: "/"; hash: string }
-  | { pathname: "/notes/[...slug]"; params: { slug: string[] } };
+type NavHref = Route | { pathname: "/"; hash: string };
 
 type NavItem = {
   label: string;
@@ -19,7 +17,7 @@ function buildNavItems(slug?: string): NavItem[] {
   const items: NavItem[] = [
     {
       label: "Home",
-      href: "/",
+      href: "/" as Route,
     },
     {
       label: "All Notes",
@@ -31,13 +29,9 @@ function buildNavItems(slug?: string): NavItem[] {
   ];
 
   if (slug) {
-    const slugSegments = slug.split("/");
     items.push({
       label: "Read Overview",
-      href: {
-        pathname: "/notes/[...slug]",
-        params: { slug: slugSegments },
-      },
+      href: `/notes/${slug}` as Route,
     });
   }
 
@@ -61,20 +55,18 @@ export async function SiteHeader() {
             {SITE_NAV_LABEL}
           </Link>
           <nav className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:gap-6">
-            {navItems.map((item) => (
-              <Link
-                key={
-                  typeof item.href === "string"
-                    ? item.href
-                    : "hash" in item.href
-                      ? `${item.href.pathname}#${item.href.hash}`
-                      : `${item.href.pathname}/${item.href.params.slug.join("/")}`
-                }
-                href={item.href}
-                className="transition hover:text-foreground"
-              >
-                {item.label}
-              </Link>
+          {navItems.map((item) => (
+            <Link
+              key={
+                typeof item.href === "string"
+                  ? item.href
+                  : `${item.href.pathname}#${item.href.hash}`
+              }
+              href={item.href}
+              className="transition hover:text-foreground"
+            >
+              {item.label}
+            </Link>
             ))}
           </nav>
         </div>
