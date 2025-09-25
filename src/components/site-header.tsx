@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { getNoteSummaries } from "@/lib/notes";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { PageTimer } from "@/components/page-timer";
 
 type NavHref = "/" | { pathname: "/"; hash: string } | string;
 
@@ -51,44 +52,44 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
       <div className="panel mx-auto flex w-full max-w-5xl flex-col gap-2 bg-background/85 px-4 py-3 sm:gap-3 sm:px-8 sm:py-4">
-        <div className="flex w-full flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <nav className="flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.35em] text-foreground sm:justify-start">
-            {navItems.map((item, index) => {
-              const key =
-                typeof item.href === "string"
-                  ? item.href
-                  : `${item.href.pathname}#${item.href.hash}`;
-
-              return (
-                <span key={key} className="flex items-center gap-2">
-                  <Link href={item.href} className="transition hover:text-foreground/70">
+        <div className="nav-scroll flex items-center gap-3 overflow-x-auto whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.3em] text-foreground/70 sm:justify-between sm:overflow-visible">
+          <div className="flex items-center gap-2 text-foreground">
+            <Link href={navItems[0]?.href ?? "/"} className="transition hover:text-foreground/60">
+              {navItems[0]?.label}
+            </Link>
+            <span className="text-foreground/40" aria-hidden>
+              |
+            </span>
+            {navItems[1] && (
+              <Link href={navItems[1].href} className="transition hover:text-foreground/60">
+                {navItems[1].label}
+              </Link>
+            )}
+          </div>
+          {characterItems.length > 0 && (
+            <div className="flex items-center gap-2 text-foreground/60">
+              <span className="hidden text-foreground/40 sm:inline">Hahmot:</span>
+              <span className="inline sm:hidden text-foreground/40">Hahmot</span>
+              <nav className="flex items-center gap-2">
+                {characterItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="transition hover:text-foreground"
+                  >
                     {item.label}
                   </Link>
-                  {index === 0 && (
-                    <span className="text-foreground/40" aria-hidden>
-                      |
-                    </span>
-                  )}
-                </span>
-              );
-            })}
-          </nav>
-          <div className="flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.26em] text-foreground/60 sm:justify-end">
-            <span className="hidden text-foreground/40 sm:inline">Hahmot:</span>
-            <nav className="nav-scroll flex items-center gap-2 overflow-x-auto whitespace-nowrap sm:overflow-visible">
-              {characterItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="transition hover:text-foreground"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+                ))}
+              </nav>
+            </div>
+          )}
+        </div>
+        <div className="flex items-center justify-between">
+          <PageTimer />
+          <div className="flex-1 pl-3">
+            <ScrollProgress />
           </div>
         </div>
-        <ScrollProgress />
       </div>
     </header>
   );

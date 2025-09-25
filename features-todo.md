@@ -10,6 +10,9 @@
 - [x] Swap typography to Audiowide (headings) + Work Sans (body)
 - [x] Refresh visual styling with futuristic glow and asymmetric corner cuts
 - [ ] Redesign nav layout (ALKU | SUOMI 2068 and character links with futuristic styling)
+- [ ] Replace "All notes" section with "Summary" cards showing first chapter preview
+- [ ] Ensure header stays single-line on mobile
+- [ ] Add per-page session timer above reading progress
 
 For each feature:
 1. Ensure git is initialised (`git init`) and current state committed on `main`.

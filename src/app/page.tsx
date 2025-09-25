@@ -9,6 +9,42 @@ import {
   transformWikiLinks,
 } from "@/lib/wiki-links";
 
+function extractFirstSection(markdown: string): {
+  heading?: string;
+  body?: string;
+} {
+  const sections = markdown.split(/\r?\n(?=##\s)/);
+  if (sections.length > 1) {
+    const [firstHeading, ...rest] = sections[1].split(/\r?\n/);
+    const body = rest
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .join(" ");
+    return {
+      heading: firstHeading.replace(/^##\s+/, "").trim(),
+      body:
+        body.length > 0
+          ? body.slice(0, 240).trimEnd() + (body.length > 240 ? "…" : "")
+          : undefined,
+    };
+  }
+
+  const paragraph = markdown
+    .split(/\r?\n\s*\r?\n/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .find((block) => !block.startsWith("#"));
+
+  if (paragraph) {
+    return {
+      body:
+        paragraph.slice(0, 240).trimEnd() + (paragraph.length > 240 ? "…" : ""),
+    };
+  }
+
+  return {};
+}
+
 export const revalidate = 3600;
 
 const LANDING_NOTE_MATCHER = (slugSegments: string[]) =>
@@ -57,6 +93,17 @@ export default async function Home() {
     ? `/notes/${nextAfterLanding.slug}`
     : undefined;
 
+  const notePreviews = await Promise.all(
+    notes.map(async (summary) => {
+      const fullNote = await getNoteBySlug(summary.slugSegments);
+      const section = fullNote ? extractFirstSection(fullNote.content) : {};
+      return {
+        summary,
+        section,
+      };
+    }),
+  );
+
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12">
       {landingNote && landingWiki && (
@@ -95,36 +142,30 @@ export default async function Home() {
         </p>
       ) : (
         <section id="notes" className="flex flex-col gap-8">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2 className="text-xl font-semibold leading-tight">All notes</h2>
-            <span className="text-sm text-foreground/55">
-              {notes.length} file{notes.length === 1 ? "" : "s"}
-            </span>
+          <div className="flex items-center gap-4">
+            <h2 className="text-xl font-semibold leading-tight">Summary</h2>
           </div>
           <ul className="grid gap-5 sm:grid-cols-2">
-            {notes.map((note) => {
-              return (
-                <li key={note.slug}>
-                  <Link
-                    href={`/notes/${note.slug}`}
-                    className="panel group block h-full bg-background/85 px-6 py-7 transition hover:-translate-y-0.5 hover:shadow-[0_0_35px] hover:shadow-foreground/25"
-                  >
-                    <h3 className="text-lg font-semibold leading-snug uppercase text-foreground group-hover:text-foreground">
-                      {note.title}
-                    </h3>
-                    {note.description ? (
-                      <p className="mt-3 text-sm leading-relaxed text-foreground/70">
-                        {note.description}
-                      </p>
-                    ) : (
-                      <p className="mt-3 text-sm italic text-foreground/40">
-                        No preview available
-                      </p>
-                    )}
-                  </Link>
-                </li>
-              );
-            })}
+            {notePreviews.map(({ summary, section }) => (
+              <li key={summary.slug}>
+                <Link
+                  href={`/notes/${summary.slug}`}
+                  className="panel group block h-full bg-background/85 px-6 py-7 transition hover:-translate-y-0.5 hover:shadow-[0_0_35px] hover:shadow-foreground/25"
+                >
+                  <h3 className="text-lg font-semibold leading-snug uppercase text-foreground group-hover:text-foreground">
+                    {summary.title}
+                  </h3>
+                  {section.heading && (
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-foreground/55">
+                      {section.heading}
+                    </p>
+                  )}
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">
+                    {section.body ?? summary.description ?? "Ei esikatselua"}
+                  </p>
+                </Link>
+              </li>
+            ))}
           </ul>
         </section>
       )}
