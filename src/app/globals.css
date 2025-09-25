@@ -58,7 +58,6 @@ h6 {
 
 .panel {
   position: relative;
-  border-radius: 1.5rem;
   clip-path: polygon(18px 0%, 100% 0%, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0% 100%, 0% 18px);
   background: color-mix(in srgb, var(--color-background) 92%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-foreground) 16%, transparent);

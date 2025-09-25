@@ -60,7 +60,7 @@ export default async function Home() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12">
       {landingNote && landingWiki && (
-        <article className="panel bg-background/80 px-5 py-8 sm:px-8 sm:py-10">
+        <article className="panel bg-background/80 px-6 py-8 sm:px-10 sm:py-12">
           <header className="mb-8 flex flex-col gap-2 text-center">
             <h1 className="text-balance text-4xl font-semibold leading-tight uppercase sm:text-5xl">
               {landingNote.title}
@@ -107,7 +107,7 @@ export default async function Home() {
                 <li key={note.slug}>
                   <Link
                     href={`/notes/${note.slug}`}
-                    className="panel group block h-full bg-background/85 p-6 transition hover:-translate-y-0.5 hover:shadow-[0_0_35px] hover:shadow-foreground/25"
+                    className="panel group block h-full bg-background/85 px-6 py-7 transition hover:-translate-y-0.5 hover:shadow-[0_0_35px] hover:shadow-foreground/25"
                   >
                     <h3 className="text-lg font-semibold leading-snug uppercase text-foreground group-hover:text-foreground">
                       {note.title}
